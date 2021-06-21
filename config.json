@@ -1,0 +1,23 @@
+{
+  "general": {},
+  "testrail": {
+    "userName": "amr.ali@afaqy.com",
+    "userPass": "Afaqy@2020",
+    "gRailBaseURL": "http://testrail.afaqy.sa/index.php?",
+    "gAuthEndPoint": "/auth/login/=",
+    "gListProjectsEndPoint": "/api/v2/get_projects",
+    "gListMileStones": "/api/v2/get_milestones",
+    "gListProjectSuites": "/api/v2/get_suites",
+    "gAddNewRun": "/api/v2/add_run",
+    "gAddResults": "/api/v2/add_results_for_cases",
+    "gGetCurrentUser": "/api/v2/get_user_by_email"
+  },
+  "jira": {},
+  "html": {},
+  "metaConfig": {
+    "projectMeta": "Project_Name",
+    "suiteMeta": "Suite_Name",
+    "milestoneMeta": "MileStone_Name",
+    "testcaseID": "testcase_ID"
+  }
+}

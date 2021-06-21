@@ -1,0 +1,3 @@
+class railEntity extends entity{
+    
+}
