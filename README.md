@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # testcafe-reporter-afaqy
 [![Build Status](https://travis-ci.org/@Amrxx/testcafe-reporter-afaqy.svg)](https://travis-ci.org/@Amrxx/testcafe-reporter-afaqy)
 
@@ -35,3 +36,6 @@ testCafe
 
 ## Author
 Amr Aly 
+=======
+# Afaqy_Reporter
+>>>>>>> 3cecd3d62889cada1c2f1f3f2ea2c9a2f93c967b
