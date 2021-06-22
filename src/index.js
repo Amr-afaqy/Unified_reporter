@@ -48,13 +48,19 @@ class TestRun {
         this.dataObject["rresults"] = result;
     }
 
-    printGeneratedObject() {
-        const configFile = require('./../config.json')
-        const reportDistributer = new Distributer();
-        reportDistributer.setConfigFile(configFile);
-        reportDistributer.setTestObject(this.dataObject);
-        reportDistributer.startDistributing()
- 
+    async printGeneratedObject() {
+        try{
+            console.log("Distributing......")
+            const configFile = require('./../config.json')
+            const reportDistributer = new Distributer();
+            await reportDistributer.setConfigFile(configFile);
+            await reportDistributer.setTestObject(this.dataObject);
+            await reportDistributer.startDistributing()
+            console.log("Done......")
+        }catch(error){
+            console.error()
+            console.log(error)
+        }
     }
 }
 
@@ -86,14 +92,14 @@ module.exports = function () {
             );
         },
 
-        reportTaskDone(endTime, passed, warnings, result) {
+        async reportTaskDone(endTime, passed, warnings, result) {
             this.reporterHandler.updateTestRunFooter(
                 endTime,
                 passed,
                 warnings,
                 result
             );
-            this.reporterHandler.printGeneratedObject();
+           await this.reporterHandler.printGeneratedObject();
         },
     };
 };

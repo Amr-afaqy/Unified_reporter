@@ -7,9 +7,9 @@
     "name": "Amr Aly",
     "email": "amrahmed2089@gmail.com"
   },
-  "main": "lib/index",
+  "main": "src/index",
   "files": [
-    "lib"
+    "src"
   ],
   "scripts": {
     "test": "gulp test",

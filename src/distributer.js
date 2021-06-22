@@ -6,29 +6,37 @@ module.exports = class Distributer {
     #TEST_OBJECT;
     constructor() {}
 
-    setConfigFile(configFile) {
+    async setConfigFile(configFile) {
         this.#CONFIG_OBJECT = configFile;
     }
 
-    setTestObject(testObject) {
+    async setTestObject(testObject) {
         this.#TEST_OBJECT = testObject;
     }
 
     async startDistributing() {
-        await this.distributeToRail(this.#CONFIG_OBJECT.testrail, this.#TEST_OBJECT);
+        await this.distributeToRail(
+            this.#CONFIG_OBJECT.testrail,
+            this.#TEST_OBJECT
+        );
         //await this.distributeToJira(this.#CONFIG_OBJECT.jira, this.#TEST_OBJECT)
     }
 
     async distributeToRail(railConfig, railTestObject) {
-        const railObject = new railObjectInstance(railConfig);
-        const authToken = await railObject.createTokenDetails();
-        const runData = await this.#prepareRunData(
-            railObject,
-            authToken,
-            railTestObject
-        );
-        await this.#pushNewRun(railObject, authToken, runData);
-        await this.#pushTestResults(railObject, authToken, runData);
+        try {
+            console.log("Distributing to testrail started.");
+            const railObject = new railObjectInstance(railConfig);
+            const authToken = await railObject.createTokenDetails();
+            const runData = await this.#prepareRunData(
+                railObject,
+                authToken,
+                railTestObject
+            );
+            await this.#pushNewRun(railObject, authToken, runData);
+            await this.#pushTestResults(railObject, authToken, runData);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async #prepareRunData(railInstance, token, testObject) {
@@ -123,8 +131,9 @@ module.exports = class Distributer {
         });
     }
 
-    async #checkTestCaseStatus(testCase) {
-        if (testCase.length == 0) {
+    async #checkTestCaseStatus(testCaseErrs) {
+        console.log(testCaseErrs.length)
+        if (testCaseErrs.length == 0) {
             return 1;
         } else {
             return 5;

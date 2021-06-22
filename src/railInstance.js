@@ -1,8 +1,9 @@
-const http = require("axios");
+const http = require("axios").default;
 var querystring = require("querystring");
 
 module.exports = class testRailInstance {
     constructor(railConfig) {
+        console.log("Test rail instance");
         this.userName = railConfig.userName;
         this.password = railConfig.userPass;
         this.baseUrl = railConfig.gRailBaseURL;
@@ -16,25 +17,41 @@ module.exports = class testRailInstance {
     }
 
     async initateAuthenticationToken() {
-        let sessionID = await http.get(this.baseUrl + "/auth/login");
-        let requestCookies = await sessionID.headers["set-cookie"]
-            .toString()
-            .slice(0, sessionID.headers["set-cookie"].toString().indexOf(";"));
-        let sd = await http.post(
-            this.baseUrl + this.authEndPoint,
-            querystring.stringify({
-                name: this.userName,
-                password: this.password,
-                rememberme: 1,
-            }),
-            {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    Cookie: requestCookies,
-                },
-            }
-        );
-        return requestCookies;
+        console.log("Creating token");
+        try {
+            let sessionID = await http.get(this.baseUrl + "/auth/login")
+            let requestCookies = await sessionID.headers["set-cookie"]
+                .toString()
+                .slice(
+                    0,
+                    sessionID.headers["set-cookie"].toString().indexOf(";")
+                );
+
+            let sd = await http
+                .post(
+                    this.baseUrl + this.authEndPoint,
+                    querystring.stringify({
+                        name: this.userName,
+                        password: this.password,
+                        rememberme: 1,
+                    }),
+                    {
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            Cookie: requestCookies,
+                        },
+                    }
+                )
+                .then((res) => {
+                    return res.data;
+                })
+                .catch((err) => {
+                    return err.response.data.error;
+                });
+            return requestCookies;
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     async getProjectIDS(sessionCookies, projectName) {
@@ -144,8 +161,8 @@ module.exports = class testRailInstance {
         let session_ID = await this.initateAuthenticationToken();
         let user_ID = await this.getUserID(session_ID);
         return {
-            sessionID: session_ID,
-            userID: user_ID,
+            sessionID: await session_ID,
+            userID: await user_ID,
         };
     }
 };
