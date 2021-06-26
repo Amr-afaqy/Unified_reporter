@@ -15,7 +15,7 @@ module.exports = class Distributer {
    }
 
    async startDistributing() {
-     // await this.#distributeToRail(this.#TEST_OBJECT);
+      await this.#distributeToRail(this.#TEST_OBJECT);
       await this.#distributeToJira(this.#TEST_OBJECT);
    }
 
@@ -44,6 +44,4 @@ module.exports = class Distributer {
          console.log(error);
       }
    }
-
-
 };
