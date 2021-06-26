@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "afaqy TestCafe reporter plugin.",
   "repository": "https://github.com/@Amrxx/testcafe-reporter-afaqy",
+  "type": "commonjs",
   "author": {
     "name": "Amr Aly",
     "email": "amrahmed2089@gmail.com"

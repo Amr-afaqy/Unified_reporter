@@ -12,7 +12,13 @@
     "gAddResults": "/api/v2/add_results_for_cases",
     "gGetCurrentUser": "/api/v2/get_user_by_email"
   },
-  "jira": {},
+  "jira": {
+    "userName":"a.ali",
+    "userPass":"Temp@150",
+    "gJiraBaseURL":"http://jira.afaqy.sa/",
+    "gAuthEndPoint":"rest/auth/1/session",
+    "gCreateIssue": "rest/api/latest/issue/"
+  },
   "html": {},
   "metaConfig": {
     "projectMeta": "Project_Name",
