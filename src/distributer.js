@@ -1,8 +1,6 @@
 const railObjectInstance = require("./railInstance");
 const jiraObjectInstance = require("./jiraInstance");
-const globalConfigs = require("../config.json");
 module.exports = class Distributer {
-   #CONFIG_OBJECT;
    #TEST_OBJECT;
    constructor() {}
 

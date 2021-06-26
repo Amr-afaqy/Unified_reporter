@@ -49,14 +49,11 @@ class TestRun {
   async printGeneratedObject() {
     try {
       console.log("Distributing......");
-      const configFile = require("./../config.json");
       const reportDistributer = new Distributer();
-      await reportDistributer.setConfigFile(configFile);
       await reportDistributer.setTestObject(this.dataObject);
       await reportDistributer.startDistributing();
       console.log("Done......");
     } catch (error) {
-      console.error();
       console.log(error);
     }
   }

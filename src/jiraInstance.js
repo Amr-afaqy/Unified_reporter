@@ -1,11 +1,11 @@
 const http = require("axios").default;
 const interfaces = require("./interfaces");
-const globalConfigs = require("../config.json")
+const globalConfigs = require("../config.json");
 
-module.exports =  class jiraInstance {
+module.exports = class jiraInstance {
    constructor() {
       console.log("Jira distributing started");
-      this.jiraConfig = globalConfigs.jira
+      this.jiraConfig = globalConfigs.jira;
       this.userName = this.jiraConfig.userName;
       this.password = this.jiraConfig.userPass;
       this.baseUrl = this.jiraConfig.gJiraBaseURL;
@@ -27,14 +27,13 @@ module.exports =  class jiraInstance {
                },
             }
          );
-         console.log("Initiating Jira token status is: "+ ((sd.status == 200) ? "OK" : "Denied"));
+         console.log("Initiating Jira token status is: " + (sd.status == 200 ? "OK" : "Denied"));
          return await sd.headers["set-cookie"];
       } catch (error) {
          console.error(await error.response.data);
       }
    }
 
-   
    async extractDefectsFromObject(testObject) {
       for (let fixtureItem of testObject.testFixtures) {
          fixtureItem.fTests = fixtureItem.fTests.filter((test) => test.runInfo.errs.length != 0);
@@ -49,8 +48,8 @@ module.exports =  class jiraInstance {
             issuesList.push(new interfaces.jiraDefectInstance(defect.fMeta.projectKey, test.tName, test.tName, test.tMeta.component, test.tMeta.priorty, test.tMeta.severity, test.tMeta.labels));
          }
       }
-      console.log("Found defects to push: "+ issuesList.length);
-      return issuesList
+      console.log("Found defects to push: " + issuesList.length);
+      return issuesList;
    }
 
    async pushEachDefect(token, defectsList) {
@@ -67,11 +66,10 @@ module.exports =  class jiraInstance {
                "Content-Type": "application/json",
             },
          });
-         console.log("Defect pushed with key: "+ sd.data.key);
+         console.log("Defect pushed with key: " + sd.data.key);
          return await sd.data;
       } catch (error) {
          console.error(await error.response.data);
       }
    }
-
 };

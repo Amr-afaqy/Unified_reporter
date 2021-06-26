@@ -2,6 +2,7 @@ const http = require("axios").default;
 var querystring = require("querystring");
 const iNrfaces = require("./interfaces");
 const globalConfigs = require("../config.json");
+
 module.exports = class testRailInstance {
    constructor() {
       console.log("Test rail distributing started");
@@ -28,7 +29,7 @@ module.exports = class testRailInstance {
    }
 
    async prepareRunData(token, testObject) {
-      console.log("Preparing run data object")
+      console.log("Preparing run data object");
       let runObject = [];
       for (let element of testObject.testFixtures) {
          runObject.push({
@@ -43,14 +44,14 @@ module.exports = class testRailInstance {
       for (let testRun of runObject) {
          let runData = await this.#pushNewTestRun(await token.sessionID, await testRun.runInstance.project_ID, await testRun.runInstance.runObject);
          testRun["runID"] = runData.id;
-         console.log("Created Run object with: " + "ID: " + runData.id + " ProjectID: " + testRun.runInstance.project_ID)
+         console.log("Created Run object with: " + "ID: " + runData.id + " ProjectID: " + testRun.runInstance.project_ID);
       }
    }
 
    async pushTestResults(token, runObject) {
       for (let testRun of runObject) {
          let testResult = await this.#updateTestRunResults(await token.sessionID, await testRun.runID, await testRun.runResults);
-         console.log("Run results of: " + "ID: " + testRun.runID +  " updated with ID: " + testResult.data)
+         console.log("Run results of: " + "ID: " + testRun.runID + " updated with ID: " + testResult.data);
       }
    }
 
@@ -72,7 +73,7 @@ module.exports = class testRailInstance {
                },
             }
          );
-         console.log("Initiating Testrail token status is: "+ sd.statusText);
+         console.log("Initiating Testrail token status is: " + sd.statusText);
          return requestCookies;
       } catch (error) {
          console.error(await error.response.data);
