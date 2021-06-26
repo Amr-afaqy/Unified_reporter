@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 lib
 node_modules
-=======
 # Logs
 logs
 *.log
@@ -106,4 +104,6 @@ dist
 
 # TernJS port file
 .tern-port
->>>>>>> 3cecd3d62889cada1c2f1f3f2ea2c9a2f93c967b
+
+# Custom editor format
+.prettierrc

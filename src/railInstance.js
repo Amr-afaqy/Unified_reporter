@@ -2,10 +2,9 @@ const http = require("axios").default;
 var querystring = require("querystring");
 const iNrfaces = require("./interfaces");
 const globalConfigs = require("../config.json");
-
+const logger = require("./logger");
 module.exports = class testRailInstance {
    constructor() {
-      console.log("Test rail distributing started");
       this.railConfig = globalConfigs.testrail;
       this.userName = this.railConfig.userName;
       this.password = this.railConfig.userPass;
@@ -29,7 +28,6 @@ module.exports = class testRailInstance {
    }
 
    async prepareRunData(token, testObject) {
-      console.log("Preparing run data object");
       let runObject = [];
       for (let element of testObject.testFixtures) {
          runObject.push({
@@ -44,14 +42,14 @@ module.exports = class testRailInstance {
       for (let testRun of runObject) {
          let runData = await this.#pushNewTestRun(await token.sessionID, await testRun.runInstance.project_ID, await testRun.runInstance.runObject);
          testRun["runID"] = runData.id;
-         console.log("Created Run object with: " + "ID: " + runData.id + " ProjectID: " + testRun.runInstance.project_ID);
+         logger("Created Run object with: " + "ID: " + runData.id + " ProjectID: " + testRun.runInstance.project_ID);
       }
    }
 
    async pushTestResults(token, runObject) {
       for (let testRun of runObject) {
          let testResult = await this.#updateTestRunResults(await token.sessionID, await testRun.runID, await testRun.runResults);
-         console.log("Run results of: " + "ID: " + testRun.runID + " updated with ID: " + testResult.data);
+         logger("Run results of " + "ID: " + testRun.runID + " updated with ID: " + testResult.data[0].id);
       }
    }
 
@@ -73,9 +71,10 @@ module.exports = class testRailInstance {
                },
             }
          );
-         console.log("Initiating Testrail token status is: " + sd.statusText);
+         logger("Initiating Testrail token status is: " + sd.statusText);
          return requestCookies;
       } catch (error) {
+         logger(await error.response.data, true);
          console.error(await error.response.data);
       }
    }
@@ -91,6 +90,7 @@ module.exports = class testRailInstance {
          let targetProject = await listProjects.data.filter((project) => project.name == projectName);
          return await targetProject[0].id;
       } catch (error) {
+         logger(await error.response.data, true);
          console.error(await error.response.data);
       }
    }
@@ -106,6 +106,7 @@ module.exports = class testRailInstance {
          let targetMileStone = await listMileStones.data.filter((mileStone) => mileStone.name == mileStoneName);
          return await targetMileStone[0].id;
       } catch (error) {
+         logger(await error.response.data, true);
          console.error(await error.response.data);
       }
    }
@@ -121,6 +122,7 @@ module.exports = class testRailInstance {
          let targetSuit = await listSuits.data.filter((projectSuite) => projectSuite.name == suitName);
          return await targetSuit[0].id;
       } catch (error) {
+         logger(await error.response.data, true);
          console.error(await error.response.data);
       }
    }
@@ -135,6 +137,7 @@ module.exports = class testRailInstance {
          });
          return await userDetails.data.id;
       } catch (error) {
+         logger(await error.response.data, true);
          console.error(await error.response.data);
       }
    }
@@ -149,6 +152,7 @@ module.exports = class testRailInstance {
          });
          return addRunRequest.data;
       } catch (error) {
+         logger(await error.response.data, true);
          console.error(await error.response.data);
       }
    }
@@ -167,6 +171,7 @@ module.exports = class testRailInstance {
          );
          return addResultsRequest;
       } catch (error) {
+         logger(await error.response.data, true);
          console.error(await error.response.data);
       }
    }

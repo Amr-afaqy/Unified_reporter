@@ -8,9 +8,9 @@
     "name": "Amr Aly",
     "email": "amrahmed2089@gmail.com"
   },
-  "main": "src/index",
+  "main": "lib/index",
   "files": [
-    "src"
+    "lib"
   ],
   "scripts": {
     "test": "gulp test",
@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.4",
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "chalk": "^2.4.2"
   }
 }

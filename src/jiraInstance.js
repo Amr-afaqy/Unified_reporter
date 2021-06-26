@@ -1,10 +1,9 @@
 const http = require("axios").default;
 const interfaces = require("./interfaces");
 const globalConfigs = require("../config.json");
-
+const logger = require("./logger");
 module.exports = class jiraInstance {
    constructor() {
-      console.log("Jira distributing started");
       this.jiraConfig = globalConfigs.jira;
       this.userName = this.jiraConfig.userName;
       this.password = this.jiraConfig.userPass;
@@ -27,9 +26,10 @@ module.exports = class jiraInstance {
                },
             }
          );
-         console.log("Initiating Jira token status is: " + (sd.status == 200 ? "OK" : "Denied"));
+         logger("Initiating Jira token status is: " + (sd.status == 200 ? "OK" : "Denied"));
          return await sd.headers["set-cookie"];
       } catch (error) {
+         logger(await error.response.data, true);
          console.error(await error.response.data);
       }
    }
@@ -48,7 +48,7 @@ module.exports = class jiraInstance {
             issuesList.push(new interfaces.jiraDefectInstance(defect.fMeta.projectKey, test.tName, test.tName, test.tMeta.component, test.tMeta.priorty, test.tMeta.severity, test.tMeta.labels));
          }
       }
-      console.log("Found defects to push: " + issuesList.length);
+      logger("Found defects to push: " + issuesList.length);
       return issuesList;
    }
 
@@ -66,9 +66,10 @@ module.exports = class jiraInstance {
                "Content-Type": "application/json",
             },
          });
-         console.log("Defect pushed with key: " + sd.data.key);
+         logger("Defect pushed with key: " + sd.data.key);
          return await sd.data;
       } catch (error) {
+         logger(await error.response.data, true);
          console.error(await error.response.data);
       }
    }
