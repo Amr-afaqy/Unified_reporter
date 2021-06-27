@@ -46,10 +46,10 @@ class jiraDefectInstance {
                },
             ],
             priority: {
-               name: priorty, //"High",
+               "name": priorty, //"High",
             },
             labels: labels, //["SystemTest", "BackEnd"],
-            customfield_10700: { value: severity },
+            customfield_10700: { "value": severity },
          },
       };
    }

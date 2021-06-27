@@ -4,8 +4,13 @@
 This is the **afaqy** reporter plugin for [TestCafe](http://devexpress.github.io/testcafe).
 
 <p align="center">
-    <img src="https://raw.github.com/@Amrxx/testcafe-reporter-afaqy/master/media/preview.png" alt="preview" />
+    <img src="http://test.afaqy.com/images/Logo.png" alt="preview" />
 </p>
+
+## Version - 1.0
+- Create test run on test rail for each tested fixture
+- Create defect on jira with the assigned meta data based on the testcase result
+- Simple command line reporter
 
 ## Install
 
@@ -34,5 +39,5 @@ testCafe
 ```
 
 ## Author
-Amr Aly 
+Amr Aly @ Afaqy 2021
 # Afaqy_Reporter

@@ -1,4 +1,8 @@
 const chalk = require('chalk')
 module.exports = function logIt(value, isError = false){
-    console.log(chalk.green("--> " + value))
+    if (isError){
+        console.log(chalk.red("--> ") + value)
+    }else{
+        console.log(chalk.green("--> ") + value)
+    }
 }

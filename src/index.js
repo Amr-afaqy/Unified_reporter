@@ -70,8 +70,8 @@ module.exports = function () {
 
          const time = this.moment(startTime).format("M/D/YYYY h:mm:ss a");
 
-         this.write(chalk.green(`--> Afaqy custom reporter started: ${time}`)).newline()
-         .write(chalk.green(`--> Running ${testCount} tests in: ${userAgents}`)).newline();
+         this.write(chalk.green('--> ') + `Afaqy custom reporter started: ${time}`).newline()
+         .write(chalk.green('--> ') + `Running ${testCount} tests in: ${userAgents}`).newline();
 
          this.reporterHandler.updateDataObject("reportStart", startTime);
          this.reporterHandler.updateDataObject("reportAgent", userAgents);
@@ -81,12 +81,12 @@ module.exports = function () {
       reportFixtureStart(name, path, meta) {
          this.currentFixtureName = name;
          this.currentFixtureMeta = meta;
-         this.write(chalk.green(`--> Starting fixture: ${name} ${meta.fixtureID}`)).newline();
+         this.write(chalk.green('--> ') + `Starting fixture: ${name} ${meta.fixtureID}`).newline();
          this.reporterHandler.updateFixtures(name, path, meta, Math.random());
       },
 
       async reportTestStart(name, meta) {
-         this.write(chalk.green(`--> Starting test: ${name} (${meta.severity})`)).newline();
+         this.write(chalk.green('--> ') + `Starting test: ${name} (${meta.severity})`).newline();
       },
 
       reportTestDone(name, testRunInfo, meta) {
@@ -98,8 +98,8 @@ module.exports = function () {
          const time = this.moment(endTime).format('M/D/YYYY h:mm:ss a');
          const durationMs  = endTime - this.startTime;
          const durationStr = this.moment.duration(durationMs).format('h[h] mm[m] ss[s]');
-         const summary = result.failedCount ? `${result.failedCount}/${this.testCount} failed` : `${result.passedCount} passed`;
-         this.write(chalk.green(`--> Testing finished: ${time} | Duration: ${durationStr} | ${summary}`)).newline();
+         const summary = result.failedCount ? chalk.red(`${result.failedCount}/${this.testCount} failed`) : chalk.red(`${result.passedCount} passed`);
+         this.write(chalk.green('--> ') + `Testing finished: ${time} | Duration: ${durationStr} | ${summary}`).newline();
          await this.reporterHandler.printGeneratedObject();
       },
    };
