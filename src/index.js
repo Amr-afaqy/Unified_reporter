@@ -98,7 +98,7 @@ module.exports = function () {
          const time = this.moment(endTime).format('M/D/YYYY h:mm:ss a');
          const durationMs  = endTime - this.startTime;
          const durationStr = this.moment.duration(durationMs).format('h[h] mm[m] ss[s]');
-         const summary = result.failedCount ? chalk.red(`${result.failedCount}/${this.testCount} failed`) : chalk.red(`${result.passedCount} passed`);
+         const summary = result.failedCount ? chalk.red(`${result.failedCount}/${this.testCount} failed`) : chalk.green(`${result.passedCount} passed`);
          this.write(chalk.green('--> ') + `Testing finished: ${time} | Duration: ${durationStr} | ${summary}`).newline();
          await this.reporterHandler.printGeneratedObject();
       },

@@ -2,13 +2,13 @@ class testRunInstance {
    constructor(suiteID, name, userID, case_ids, mileStoneID, description) {
       return {
          suite_id: suiteID,
-         name: name,
+         name: name + ' - ' + "Automated Run - " + Math.floor(Math.random() * 1000) ,
          assignedto_id: userID,
          refs: "",
          case_ids: case_ids,
          include_all: false,
          milestone_id: mileStoneID,
-         description: description,
+         description: description + " \n" + "Auto created run by Afaqy reporter v1.0",
       };
    }
 }
@@ -35,8 +35,8 @@ class jiraDefectInstance {
             project: {
                key: projectKey, //"AVLAUT",
             },
-            summary: caseSummery, //"Another new test issue",
-            description: caseDescr, //"This is only for testing purpose",
+            summary: "Automated - " +  caseSummery, //"Another new test issue",
+            description: caseDescr + " \n" + "Auto created defect by Afaqy reporter v1.0", //"This is only for testing purpose",
             issuetype: {
                name: "Bug",
             },
