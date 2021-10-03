@@ -16,6 +16,7 @@ module.exports = class TestrailCore {
         this.getCurrentUser = this.railConfig.gGetCurrentUser;
         this.addNewRun = this.railConfig.gAddNewRun;
         this.addResults = this.railConfig.gAddResults;
+        this.getTestCase = this.railConfig.gGetTestCase
     }
 
     async initateAuthenticationToken() {
@@ -142,6 +143,22 @@ module.exports = class TestrailCore {
         }
     }
 
-
+    async getTestCaseByID(sessionCookies, testCaseID){
+        try {
+            let testCaseData = await http.get(
+                this.baseUrl + this.getTestCase + "/" + (await testCaseID),
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Cookie: await sessionCookies,
+                    },
+                }
+            );
+            return testCaseData;
+        } catch (error) {
+            logger(await error.response.data, true);
+            console.error(await error.response.data);
+        }
+    }
 
 }
