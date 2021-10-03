@@ -1,9 +1,6 @@
 {
   "general": {},
   "testrail": {
-    "userName": "amr.ali@afaqy.com",
-    "userPass": "Afaqy@2020",
-    "gRailBaseURL": "http://testrail.afaqy.sa/index.php?",
     "gAuthEndPoint": "/auth/login/=",
     "gListProjectsEndPoint": "/api/v2/get_projects",
     "gListMileStones": "/api/v2/get_milestones",
@@ -13,17 +10,20 @@
     "gGetCurrentUser": "/api/v2/get_user_by_email"
   },
   "jira": {
-    "userName":"a.ali",
-    "userPass":"Temp@150",
-    "gJiraBaseURL":"http://jira.afaqy.sa/",
-    "gAuthEndPoint":"rest/auth/1/session",
+    "gAuthEndPoint": "rest/auth/1/session",
     "gCreateIssue": "rest/api/latest/issue/"
   },
   "html": {},
   "metaConfig": {
-    "projectMeta": "Project_Name",
+    "projectMeta": "Project_Name", 
     "suiteMeta": "Suite_Name",
     "milestoneMeta": "MileStone_Name",
-    "testcaseID": "testcase_ID"
+    "testcaseID": "testcase_ID",
+    "componentMeta": "targetComponent",
+    "projectKeyMeta": "jiraProjectKey",
+    "priorityMeta": "testPriority",
+    "severityMeta": "testSeverity",
+    "labelsMeta": "testLabels",
+    "fixtureIDMeta": "fixtureID"
   }
 }

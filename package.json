@@ -1,6 +1,6 @@
 {
   "name": "testcafe-reporter-afaqy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "afaqy TestCafe reporter plugin.",
   "repository": "https://github.com/@Amrxx/testcafe-reporter-afaqy",
   "type": "commonjs",
@@ -33,15 +33,18 @@
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-eslint": "^5.0.0",
-    "gulp-mocha": "^6.0.0",
+    "gulp-mocha": "^8.0.0",
     "normalize-newline": "^1.0.2",
     "publish-please": "^5.4.3",
     "read-file-relative": "^1.2.0",
-    "testcafe": "^1.0.1"
+    "testcafe": "^15.1.317922"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.4",
+    "acorn": "^8.5.0",
     "axios": "^0.21.1",
-    "chalk": "^2.4.2"
+    "chalk": "^2.4.2",
+    "dotenv": "^10.0.0",
+    "gulp-cli": "^2.3.0"
   }
 }

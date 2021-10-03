@@ -1,9 +1,14 @@
-const railObjectInstance = require("./railInstance");
-const jiraObjectInstance = require("./jiraInstance");
+"use strict";
+import JiraCore from "./core/JiraCore";
+import TestrailCore from "./core/TestrailCore";
+import TestRailInstance from "./channels/TestRailInstance";
+import jiraInstance from "./channels/jiraInstance";
 const logger = require("./logger");
+const globalConfigs = require("../config.json");
+
 module.exports = class Distributer {
    #TEST_OBJECT;
-   constructor() {}
+   constructor() { }
 
    async setTestObject(testObject) {
       this.#TEST_OBJECT = testObject;
@@ -16,7 +21,8 @@ module.exports = class Distributer {
 
    async #distributeToRail(railTestObject) {
       try {
-         const railObject = new railObjectInstance();
+         const railCore = new TestrailCore(globalConfigs)
+         const railObject = new TestRailInstance(railCore, globalConfigs);
          const authToken = await railObject.createTokenDetails();
          const runData = await railObject.prepareRunData(authToken, railTestObject);
          await railObject.pushNewRun(authToken, runData);
@@ -29,7 +35,8 @@ module.exports = class Distributer {
 
    async #distributeToJira(testObject) {
       try {
-         let jira = new jiraObjectInstance();
+         const jiraCore = new JiraCore(globalConfigs)
+         let jira = new jiraInstance(jiraCore, globalConfigs);
          let sessionCookies = await jira.initateAuthenticationToken();
          let defects = await jira.extractDefectsFromObject(testObject);
          let issuesList = await jira.createIssueObjectList(defects);
