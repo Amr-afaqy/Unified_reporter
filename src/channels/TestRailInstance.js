@@ -1,11 +1,9 @@
 "use strict";
-import TestrailCore from "../core/TestrailCore";
-import TestCaseModel from "../models/TestCaseModel"
-import TestRunModel from "../models/TestRunModel"
+const TestCaseModel = require("../models/TestCaseModel")
+const TestRunModel = require("../models/TestRunModel")
 const logger = require("../logger");
 
-export default class TestRailInstance {
-   railCore = new TestrailCore()
+module.exports = class TestRailInstance {
    constructor(testRailCore, configObject) {
       this.railCore = testRailCore;
       this.globalConfigs = configObject

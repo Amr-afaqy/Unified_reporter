@@ -2,8 +2,8 @@
 const http = require("axios").default;
 const logger = require("../logger");
 const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, '.env') })
-export default class TestrailCore {
+require('dotenv').config({ path: path.resolve("./", '.env') })
+module.exports = class TestrailCore {
     constructor(configObject) {
         this.railConfig = configObject.testrail;
         this.userName = process.env.railUsername;
@@ -24,7 +24,7 @@ export default class TestrailCore {
             let requestCookies = await sessionID.headers["set-cookie"].toString().slice(0, sessionID.headers["set-cookie"].toString().indexOf(";"));
             let sd = await http.post(
                 this.baseUrl + this.authEndPoint,
-                URLSearchParams.stringify({
+                new URLSearchParams({
                     name: this.userName,
                     password: this.password,
                     rememberme: 1,
@@ -39,6 +39,7 @@ export default class TestrailCore {
             logger("Initiating Testrail token status is: " + sd.statusText);
             return requestCookies;
         } catch (error) {
+            console.log(error)
             logger(await error.response.data, true);
             console.error(await error.response.data);
         }

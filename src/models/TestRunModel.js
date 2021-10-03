@@ -1,5 +1,5 @@
 "use strict";
-export default class TestRunModel {
+module.exports = class TestRunModel {
     constructor(suiteID, name, userID, case_ids, mileStoneID, description) {
        return {
           suite_id: suiteID,

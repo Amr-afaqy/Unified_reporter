@@ -1,5 +1,5 @@
 "use strict";
-export default class jiraDefectInstance {
+module.exports = class jiraDefectInstance {
     constructor(projectKey, caseSummery, caseDescr, componentName, priority, severity, labels) {
        return {
           fields: {

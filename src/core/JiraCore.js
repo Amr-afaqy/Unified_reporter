@@ -3,7 +3,7 @@ const http = require("axios").default;
 const logger = require("../logger");
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
-export default class JiraCore{
+module.exports = class JiraCore{
     constructor(configObject){
         this.jiraConfig = configObject.jira;
         this.userName = process.env.jiraUsername;

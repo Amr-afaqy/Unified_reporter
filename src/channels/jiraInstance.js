@@ -1,9 +1,8 @@
 "use strict";
-import JiraCore from "../core/JiraCore"
-import JiraDefectModel from "../models/JiraDefectModel"
 const logger = require("../logger");
-
-export default class jiraInstance {
+const JiraCore = require("../core/JiraCore.js")
+const JiraDefectModel = require("../models/JiraDefectModel")
+module.exports = class jiraInstance {
    jiraCore = new JiraCore()
    constructor(jiraCore, configObject) {
       this.jiraCore = jiraCore;

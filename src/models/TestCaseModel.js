@@ -1,5 +1,5 @@
 "use strict";
-export default class TestCaseModel {
+module.exports = class TestCaseModel {
     constructor(caseID, statusID, comments, elapsed) {
         return {
             case_id: caseID,
