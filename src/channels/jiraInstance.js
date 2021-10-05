@@ -44,7 +44,7 @@ module.exports = class jiraInstance {
 
    async pushEachDefect(token, defectsList) {
       for (let item of defectsList) {
-         await this.jiraCore.pushNewIssue(await token, item);
+         await this.jiraCore.pushNewIssue(await token, item.toRequestPayload());
       }
    }
 

@@ -27,12 +27,11 @@ module.exports = class Distributer {
 
    async updateIssuesListWithDescription(issuesList) {
       for (let test of issuesList) {
-         console.log(test.toRequestPayload())
-         // let testCaseData = await this.railCore.getTestCaseByID(this.railToken, test.testCaseID());
-         // test.description =
-         //    `${testCaseData.data.custom_preconds}\n
-         //    ${testCaseData.data.custom_steps}\n
-         //    ${testCaseData.data.custom_expected}`
+         let testCaseData = await this.railCore.getTestCaseByID(this.railToken.sessionID, test.id);
+         test.description =
+             `${testCaseData.data.custom_preconds}\n
+             ${testCaseData.data.custom_steps}\n
+             ${testCaseData.data.custom_expected}`
       }
       return issuesList
    }
@@ -42,9 +41,9 @@ module.exports = class Distributer {
          this.railCore = new TestrailCore(globalConfigs)
          this.railProcessor = new TestRailInstance(this.railCore, globalConfigs);
          this.railToken = await this.railProcessor.createTokenDetails();
-         const runData = await this.railProcessor.prepareRunData(this.railToken, railTestObject);
-         await this.railProcessor.pushNewRun(this.railToken, runData);
-         await this.railProcessor.pushTestResults(this.railToken, runData);
+         // const runData = await this.railProcessor.prepareRunData(this.railToken, railTestObject);
+         // await this.railProcessor.pushNewRun(this.railToken, runData);
+         // await this.railProcessor.pushTestResults(this.railToken, runData);
       } catch (error) {
          logger(error, true);
          console.error(error)
