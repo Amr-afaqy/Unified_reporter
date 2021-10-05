@@ -51,7 +51,7 @@ module.exports = class TestRailInstance {
       let casesID = await this.#getTestCasesIDs(fixtureObject);
       return {
          project_ID: await projectID,
-         runObject: new TestRunModel(await suiteID, await fixtureObject.name, await token.userID, casesID, await milestoneID, "This is just a test description"),
+         runObject: new TestRunModel(await suiteID, await fixtureObject.name, await token.userID, casesID, await milestoneID, this.globalConfigs.general.testRunSignature),
       };
    }
 
@@ -69,7 +69,6 @@ module.exports = class TestRailInstance {
       }
       return testResults;
    }
-
 
    async #checkTestCaseStatus(testCaseErrs) {
       if (testCaseErrs.length === 0) {

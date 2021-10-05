@@ -1,5 +1,7 @@
 {
-  "general": {},
+  "general": {
+    "testRunSignature": "Auto created defect by Afaqy reporter v1.0"
+  },
   "testrail": {
     "gAuthEndPoint": "/auth/login/=",
     "gListProjectsEndPoint": "/api/v2/get_projects",

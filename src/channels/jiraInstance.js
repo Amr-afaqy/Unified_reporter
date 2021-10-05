@@ -3,7 +3,6 @@ const logger = require("../logger");
 const JiraCore = require("../core/JiraCore.js")
 const JiraDefectModel = require("../models/JiraDefectModel")
 module.exports = class jiraInstance {
-   jiraCore = new JiraCore()
    constructor(jiraCore, configObject) {
       this.jiraCore = jiraCore;
       this.globalConfigs = configObject
@@ -30,7 +29,13 @@ module.exports = class jiraInstance {
       let issuesList = [];
       for (let defect of defectsObject) {
          for (let test of defect.fTests) {
-            issuesList.push(new JiraDefectModel(defect.fMeta[this.globalConfigs.metaConfig.projectKeyMeta], test.tName, test.tName, test.tMeta[this.globalConfigs.metaConfig.componentMeta], test.tMeta[this.globalConfigs.metaConfig.priorityMeta], test.tMeta[this.globalConfigs.metaConfig.severityMeta], test.tMeta[this.globalConfigs.metaConfig.labelsMeta]));
+            let defectObject = new JiraDefectModel(defect.fMeta[this.globalConfigs.metaConfig.projectKeyMeta], test.tName, test.tName, 
+               test.tMeta[this.globalConfigs.metaConfig.componentMeta], 
+               test.tMeta[this.globalConfigs.metaConfig.priorityMeta], 
+               test.tMeta[this.globalConfigs.metaConfig.severityMeta], 
+               test.tMeta[this.globalConfigs.metaConfig.labelsMeta],
+               test.tMeta[this.globalConfigs.metaConfig.testcaseID])
+            issuesList.push(defectObject);
          }
       }
       logger("Found defects to push: " + issuesList.length);

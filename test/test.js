@@ -3,6 +3,8 @@ const rail_Channel = require("./utils/rail_channel_func")
 const jira_Channel = require("./utils/jira_channel_func")
 const test_Data = require("./data/test_data");
 const test_data = require('./data/test_data');
+const Distributer = require("../src/distributer");
+const rawTestObject = require("./data/testObject.json");
 
 describe("Test the Testrail module core functions", function () {
     before(async function () {
@@ -47,7 +49,7 @@ describe("Test the Testrail module core functions", function () {
     });
 })
 
-describe.only("Test the Jira module core functions", function () {
+describe("Test the Jira module core functions", function () {
     before(async function () {
         this.token = await jira_Channel.createAuthenticationToken()
         assert.notEqual(this.token, null);
@@ -68,4 +70,17 @@ describe.only("Test the Jira module core functions", function () {
         console.log(result)
         assert.notEqual(result, null);
     });
+})
+
+describe.only("Test the distributer class functionality", function (){
+    before(async function () {
+        this.token = await jira_Channel.createAuthenticationToken()
+        assert.notEqual(this.token, null);
+    });
+
+    it("Test push on testrail and jira from the raw test object", async function(){
+        const reportDistributer = new Distributer();
+        await reportDistributer.setTestObject(rawTestObject);
+        await reportDistributer.startDistributing();
+    })
 })
