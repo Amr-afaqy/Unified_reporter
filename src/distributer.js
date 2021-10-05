@@ -41,9 +41,9 @@ module.exports = class Distributer {
          this.railCore = new TestrailCore(globalConfigs)
          this.railProcessor = new TestRailInstance(this.railCore, globalConfigs);
          this.railToken = await this.railProcessor.createTokenDetails();
-         // const runData = await this.railProcessor.prepareRunData(this.railToken, railTestObject);
-         // await this.railProcessor.pushNewRun(this.railToken, runData);
-         // await this.railProcessor.pushTestResults(this.railToken, runData);
+         const runData = await this.railProcessor.prepareRunData(this.railToken, railTestObject);
+         await this.railProcessor.pushNewRun(this.railToken, runData);
+         await this.railProcessor.pushTestResults(this.railToken, runData);
       } catch (error) {
          logger(error, true);
          console.error(error)
