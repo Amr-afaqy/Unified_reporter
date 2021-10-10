@@ -82,5 +82,6 @@ describe.only("Test the distributer class functionality", function (){
         const reportDistributer = new Distributer();
         await reportDistributer.setTestObject(rawTestObject);
         await reportDistributer.startDistributing();
+        
     })
 })

@@ -33,7 +33,7 @@ function test () {
         .pipe(mocha({
             ui:       'bdd',
             reporter: 'spec',
-            timeout:  typeof v8debug === 'undefined' ? 20000 : Infinity // NOTE: disable timeouts in debug
+            timeout:  typeof v8debug === 'undefined' ? 120000 : Infinity // NOTE: disable timeouts in debug
         }));
 }
 

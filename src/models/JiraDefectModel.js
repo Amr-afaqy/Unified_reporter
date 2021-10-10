@@ -1,6 +1,6 @@
 "use strict";
 module.exports = class jiraDefectInstance {
-   constructor(projectKey, caseSummery, caseDescr, componentName, priority, severity, labels, testCaseID) {
+   constructor(projectKey, caseSummery, caseDescr, componentName, priority, severity, labels, testCaseID, attachment) {
       this.id = testCaseID
       this.projectKey = projectKey;
       this.title = caseSummery;
@@ -9,6 +9,8 @@ module.exports = class jiraDefectInstance {
       this.priority = priority;
       this.severity = severity;
       this.labels = labels;
+      this.attachment = attachment
+      this.jiraKey = null;
    }
 
    toRequestPayload() {

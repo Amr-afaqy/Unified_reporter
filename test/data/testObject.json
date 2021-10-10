@@ -1,6 +1,9 @@
 {
    "reportStart": "1970-01-01T00:00:00.000Z",
-   "reportAgent": ["Chrome 41.0.2227 / Mac OS X 10.10.1", "Firefox 47 / Mac OS X 10.10.1"],
+   "reportAgent": [
+      "Chrome 41.0.2227 / Mac OS X 10.10.1",
+      "Firefox 47 / Mac OS X 10.10.1"
+   ],
    "testsCount": 7,
    "testFixtures": [
       {
@@ -17,23 +20,57 @@
             {
                "tID": 0.464096934400654,
                "tName": "First test in first fixture",
-               "tMeta": { "testcase_ID": 15100, "testPriority": "High", "targetComponent": "Automation", "testSeverity": "Major", "testLabels": ["SystemTest", "BackEnd"] },
+               "tMeta": {
+                  "testcase_ID": 15100,
+                  "testPriority": "High",
+                  "targetComponent": "Automation",
+                  "testSeverity": "Major",
+                  "testLabels": [
+                     "SystemTest",
+                     "BackEnd"
+                  ]
+               },
                "runInfo": {
-                  "errs": ["2"],
+                  "errs": [
+                     "2"
+                  ],
                   "durationMs": 74000,
                   "unstable": true,
-                  "screenshotPath": "/screenshots/1445437598847"
+                  "screenshotPath": "/screenshots/1445437598847",
+                  "videos": [
+                     {
+                        "testRunId": "Wdtl2ViBq",
+                        "videoPath": "/media/amrx/New Volume/D-Drive/AVLAUT-Master/AVL_Automation_New_Master/avl-automation-testing/artifacts/videos/1/Chrome_94.0.4606.61_Linux_0.0/1.mp4",
+                        "singleFile": false
+                     }
+                  ]
                }
             },
             {
                "tID": 0.464096934400654,
                "tName": "Second test in first fixture",
-               "tMeta": { "testcase_ID": 166, "testPriority": "High", "targetComponent": "Automation", "testSeverity": "Major", "testLabels": ["SystemTest", "BackEnd"] },
+               "tMeta": {
+                  "testcase_ID": 166,
+                  "testPriority": "High",
+                  "targetComponent": "Automation",
+                  "testSeverity": "Major",
+                  "testLabels": [
+                     "SystemTest",
+                     "BackEnd"
+                  ]
+               },
                "runInfo": {
                   "errs": [],
                   "durationMs": 74000,
                   "unstable": true,
-                  "screenshotPath": "/screenshots/1445437598847"
+                  "screenshotPath": "/screenshots/1445437598847",
+                  "videos": [
+                     {
+                        "testRunId": "Wdtl2ViBq",
+                        "videoPath": "/media/amrx/New Volume/D-Drive/AVLAUT-Master/AVL_Automation_New_Master/avl-automation-testing/artifacts/videos/1/Chrome_94.0.4606.61_Linux_0.0/1.mp4",
+                        "singleFile": false
+                     }
+                  ]
                }
             }
          ]
@@ -52,23 +89,57 @@
             {
                "tID": 0.464096934400654,
                "tName": "First test in Second fixture",
-               "tMeta": { "testcase_ID": 15569, "testPriority": "High", "targetComponent": "Automation", "testSeverity": "Major", "testLabels": ["SystemTest", "BackEnd"] },
+               "tMeta": {
+                  "testcase_ID": 15569,
+                  "testPriority": "High",
+                  "targetComponent": "Automation",
+                  "testSeverity": "Major",
+                  "testLabels": [
+                     "SystemTest",
+                     "BackEnd"
+                  ]
+               },
                "runInfo": {
                   "errs": [],
                   "durationMs": 74000,
                   "unstable": true,
-                  "screenshotPath": "/screenshots/1445437598847"
+                  "screenshotPath": "/screenshots/1445437598847",
+                  "videos": [
+                     {
+                        "testRunId": "Wdtl2ViBq",
+                        "videoPath": "/media/amrx/New Volume/D-Drive/AVLAUT-Master/AVL_Automation_New_Master/avl-automation-testing/artifacts/videos/1/Chrome_94.0.4606.61_Linux_0.0/1.mp4",
+                        "singleFile": false
+                     }
+                  ]
                }
             },
             {
                "tID": 0.464096934400654,
                "tName": "Second test in Second fixture",
-               "tMeta": { "testcase_ID": 166, "testPriority": "Low", "targetComponent": "Automation", "testSeverity": "Major", "testLabels": ["SystemTest", "BackEnd"] },
+               "tMeta": {
+                  "testcase_ID": 166,
+                  "testPriority": "Low",
+                  "targetComponent": "Automation",
+                  "testSeverity": "Major",
+                  "testLabels": [
+                     "SystemTest",
+                     "BackEnd"
+                  ]
+               },
                "runInfo": {
-                  "errs": [""],
+                  "errs": [
+                     ""
+                  ],
                   "durationMs": 74000,
                   "unstable": true,
-                  "screenshotPath": "/screenshots/1445437598847"
+                  "screenshotPath": "/screenshots/1445437598847",
+                  "videos": [
+                     {
+                        "testRunId": "Wdtl2ViBq",
+                        "videoPath": "/media/amrx/New Volume/D-Drive/AVLAUT-Master/AVL_Automation_New_Master/avl-automation-testing/artifacts/videos/1/Chrome_94.0.4606.61_Linux_0.0/1.mp4",
+                        "singleFile": false
+                     }
+                  ]
                }
             }
          ]

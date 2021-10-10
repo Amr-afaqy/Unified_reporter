@@ -3,6 +3,7 @@ const logger = require("./logger");
 const chalk = require('chalk')
 const globalConfigs = require("../config.json");
 const path = require('path')
+const fs = require("fs")
 require('dotenv').config({ path: path.resolve(__dirname, './.env') })
 class TestRun {
    constructor() {
@@ -42,10 +43,10 @@ class TestRun {
       });
    }
 
-   updateTestRunFooter(endTime, passed, warnings, result) {
+   updateTestRunFooter(endTime, passed, warnings, result, failed) {
       this.dataObject["rendTime"] = endTime;
       this.dataObject["rpassed"] = passed;
-      this.dataObject["rfailed"] = passed;
+      this.dataObject["rfailed"] = failed;
       this.dataObject["rwarnings"] = warnings;
       this.dataObject["rresults"] = result;
    }
@@ -97,7 +98,7 @@ module.exports = function () {
       },
 
       async reportTaskDone(endTime, passed, warnings, result) {
-         this.reporterHandler.updateTestRunFooter(endTime, passed, warnings, result);
+         this.reporterHandler.updateTestRunFooter(endTime, passed, warnings, result, result.failedCount);
          const time = this.moment(endTime).format('M/D/YYYY h:mm:ss a');
          const durationMs = endTime - this.startTime;
          const durationStr = this.moment.duration(durationMs).format('h[h] mm[m] ss[s]');

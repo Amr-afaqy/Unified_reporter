@@ -13,7 +13,7 @@ module.exports = class Distributer {
    jiraCore;
    jiraProcessor;
    railToken;
-   constructor() {       
+   constructor() {
    }
 
    async setTestObject(testObject) {
@@ -26,13 +26,13 @@ module.exports = class Distributer {
    }
 
    async updateIssuesListWithDescription(issuesList) {
-      for (let test of issuesList) {
+      await Promise.all(issuesList.map(async (test) => {
          let testCaseData = await this.railCore.getTestCaseByID(this.railToken.sessionID, test.id);
          test.description =
-             `${testCaseData.data.custom_preconds}\n
+            `${testCaseData.data.custom_preconds}\n
              ${testCaseData.data.custom_steps}\n
              ${testCaseData.data.custom_expected}`
-      }
+      }))
       return issuesList
    }
 
@@ -57,8 +57,9 @@ module.exports = class Distributer {
          let sessionCookies = await this.jiraProcessor.initateAuthenticationToken();
          let defects = await this.jiraProcessor.extractDefectsFromObject(testObject);
          let issuesList = await this.jiraProcessor.createIssueObjectList(defects);
-         issuesList = await this.updateIssuesListWithDescription(issuesList)
+         await this.updateIssuesListWithDescription(issuesList)
          await this.jiraProcessor.pushEachDefect(await sessionCookies, issuesList);
+         await this.jiraProcessor.updateDefectAttachment(await sessionCookies, issuesList)
       } catch (error) {
          logger(error, true);
          console.error(error)
