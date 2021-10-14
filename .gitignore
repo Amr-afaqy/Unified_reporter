@@ -107,3 +107,4 @@ dist
 
 # Custom editor format
 .prettierrc
+allure-results

@@ -5,6 +5,7 @@ const test_Data = require("./data/test_data");
 const test_data = require('./data/test_data');
 const Distributer = require("../src/distributer");
 const rawTestObject = require("./data/testObject.json");
+const AllureCore = require("../src/core/AllureCore")
 
 describe("Test the Testrail module core functions", function () {
     before(async function () {
@@ -72,16 +73,48 @@ describe("Test the Jira module core functions", function () {
     });
 })
 
-describe.only("Test the distributer class functionality", function (){
+describe.only("Test Allure module core functions", function () {
+    before(async function () {
+
+    });
+
+    it("Test push on testrail and jira from the raw test object", async function () {
+        const allureCore = new AllureCore();
+        allureCore.setTaskStartData(rawTestObject.reportStart, rawTestObject.reportAgent, 2)
+        rawTestObject.testFixtures.forEach((fixture) => {
+            allureCore.createNewSuite(fixture.name)
+            fixture.fTests.forEach((test) => {
+                allureCore.createNewTestCase(test.tName)
+                allureCore.addTaskInfo(323213131, 1, "This is a warning")
+                allureCore.addTestEnvironment("Browser",rawTestObject.reportAgent[0])
+                allureCore.addTestArgument("Project name", fixture.fMeta.Project_Name)
+                allureCore.addTestArgument("Suite_Name",  fixture.fMeta.Suite_Name)
+                allureCore.addTestArgument("MileStone_Name", fixture.fMeta.MileStone_Name)
+                allureCore.addTestLabel("story", test.tMeta.Suite_Name)
+                allureCore.addTestLabel('feature', test.tMeta.testcase_ID);
+                // allureCore.addTestLabel('epic', "Test Epic");
+                allureCore.addTestLabel('severity', "critical");
+                allureCore.endTestCaseData("passed", "", 3341313131)
+            })
+            allureCore.endTestSuite()
+        })
+
+
+    })
+})
+
+
+describe("Test the distributer class functionality", function () {
     before(async function () {
         this.token = await jira_Channel.createAuthenticationToken()
         assert.notEqual(this.token, null);
     });
 
-    it("Test push on testrail and jira from the raw test object", async function(){
+    it("Test push on testrail and jira from the raw test object", async function () {
         const reportDistributer = new Distributer();
         await reportDistributer.setTestObject(rawTestObject);
         await reportDistributer.startDistributing();
-        
+
     })
 })
+
