@@ -1,6 +1,5 @@
 "use strict";
 const logger = require("../logger");
-const JiraCore = require("../core/JiraCore.js")
 const JiraDefectModel = require("../models/JiraDefectModel")
 const fs = require("fs")
 const FormData = require('form-data');

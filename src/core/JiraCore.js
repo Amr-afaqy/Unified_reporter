@@ -5,7 +5,7 @@ const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 module.exports = class JiraCore {
    constructor(configObject) {
-      this.jiraConfig = configObject.jira;
+      this.jiraConfig = configObject;
       this.userName = process.env.jiraUsername;
       this.password = process.env.jiraPassword;
       this.baseUrl = process.env.jiraBaseURL;

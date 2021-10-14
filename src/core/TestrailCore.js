@@ -5,7 +5,7 @@ const path = require('path')
 require('dotenv').config({ path: path.resolve("./", '.env') })
 module.exports = class TestrailCore {
     constructor(configObject) {
-        this.railConfig = configObject.testrail;
+        this.railConfig = configObject;
         this.userName = process.env.railUsername;
         this.password = process.env.railPassword;
         this.baseUrl = process.env.testRailBaseURL;
