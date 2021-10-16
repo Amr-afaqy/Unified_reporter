@@ -73,28 +73,30 @@ describe("Test the Jira module core functions", function () {
     });
 })
 
-describe.only("Test Allure module core functions", function () {
+describe("Test Allure module core functions", function () {
     before(async function () {
 
     });
 
-    it("Test push on testrail and jira from the raw test object", async function () {
+    it("Test create new alurre xml file", async function () {
         const allureCore = new AllureCore();
         allureCore.setTaskStartData(rawTestObject.reportStart, rawTestObject.reportAgent, 2)
         rawTestObject.testFixtures.forEach((fixture) => {
             allureCore.createNewSuite(fixture.name)
             fixture.fTests.forEach((test) => {
                 allureCore.createNewTestCase(test.tName)
-                allureCore.addTaskInfo(323213131, 1, "This is a warning")
-                allureCore.addTestEnvironment("Browser",rawTestObject.reportAgent[0])
+                //allureCore.addTaskInfo(323213131, 1, "This is a warning")
+                allureCore.addTestEnvironment("Browser", rawTestObject.reportAgent[0])
                 allureCore.addTestArgument("Project name", fixture.fMeta.Project_Name)
-                allureCore.addTestArgument("Suite_Name",  fixture.fMeta.Suite_Name)
+                allureCore.addTestArgument("Suite_Name", fixture.fMeta.Suite_Name)
                 allureCore.addTestArgument("MileStone_Name", fixture.fMeta.MileStone_Name)
                 allureCore.addTestLabel("story", test.tMeta.Suite_Name)
-                allureCore.addTestLabel('feature', test.tMeta.testcase_ID);
-                // allureCore.addTestLabel('epic', "Test Epic");
+                allureCore.addTestLabel('feature', test.tMeta.testSeverity);
+                allureCore.addTestDescription('This is just a description');
                 allureCore.addTestLabel('severity', "critical");
-                allureCore.endTestCaseData("passed", "", 3341313131)
+                allureCore.addTestTag("Test")
+                allureCore.endTestCaseData("passed", { "message": "This test passed", "stack": "empty stack" }, 3341313131)
+
             })
             allureCore.endTestSuite()
         })
@@ -102,7 +104,6 @@ describe.only("Test Allure module core functions", function () {
 
     })
 })
-
 
 describe("Test the distributer class functionality", function () {
     before(async function () {
@@ -118,3 +119,14 @@ describe("Test the distributer class functionality", function () {
     })
 })
 
+describe.only("Test the distributer class functionality", function () {
+    before(async function () {
+        // this.token = await jira_Channel.createAuthenticationToken()
+        // assert.notEqual(this.token, null);
+    });
+
+    it("Test push on testrail and jira from the raw test object", async function () {
+        let i = 0;
+        console.log(rawTestObject.testFixtures.reduce((fixture, next) => fixture.fTests.length + next.fTests.length))
+    })
+})

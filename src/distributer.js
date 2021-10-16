@@ -25,13 +25,12 @@ module.exports = class Distributer {
    }
 
    async startDistributing() {
-      await this.#distributeToRail(this.#TEST_OBJECT);
-      await this.#distributeToJira(this.#TEST_OBJECT);
-      await this.#distributeToAllure(this.#TEST_OBJECT);
+      await distributeToRail(this.#TEST_OBJECT);
+      await distributeToJira(this.#TEST_OBJECT);
+      await distributeToAllure(this.#TEST_OBJECT);
    }
 
-
-   async #distributeToRail(railTestObject) {
+   async distributeToRail(railTestObject) {
       try {
          this.railCore = new TestrailCore(globalConfigs.testrail)
          this.railProcessor = new TestRailInstance(this.railCore, globalConfigs);
@@ -45,33 +44,35 @@ module.exports = class Distributer {
       }
    }
 
-   async #distributeToJira(testObject) {
+   async distributeToJira(testObject) {
       try {
          this.jiraCore = new JiraCore(globalConfigs.jira)
          this.jiraProcessor = new jiraInstance(this.jiraCore, globalConfigs);
          let sessionCookies = await this.jiraProcessor.initateAuthenticationToken();
          let defects = await this.jiraProcessor.extractDefectsFromObject(testObject);
          let issuesList = await this.jiraProcessor.createIssueObjectList(defects);
-         await this.#updateIssuesListWithDescription(issuesList)
+         await this.updateIssuesListWithDescription(issuesList)
          await this.jiraProcessor.pushEachDefect(await sessionCookies, issuesList);
          await this.jiraProcessor.updateDefectAttachment(await sessionCookies, issuesList)
+         return true
       } catch (error) {
          logger(error, true);
          console.error(error)
       }
    }
 
-   async #distributeToAllure(testObject) {
+   async distributeToAllure(testObject) {
       try {
          this.allureCore = new AllureCore(globalConfigs.allure)
          this.allureInstance = new AllureInstance(this.allureCore, globalConfigs)
+         this.allureInstance.generateReport(testObject)
       } catch (error) {
          logger(error, true);
          console.error(error)
       }
    }
 
-   async #updateIssuesListWithDescription(issuesList) {
+   async updateIssuesListWithDescription(issuesList) {
       await Promise.all(issuesList.map(async (test) => {
          let testCaseData = await this.railCore.getTestCaseByID(this.railToken.sessionID, test.id);
          test.description =
@@ -82,3 +83,5 @@ module.exports = class Distributer {
       return issuesList
    }
 };
+
+

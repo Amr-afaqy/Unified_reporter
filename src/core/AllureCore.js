@@ -2,6 +2,7 @@
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
+const { TYPE } = require('allure-js-commons');
 var Allure = require('allure-js-commons');
 const allureReportInstance = require("../models/AllureReportModel");
 
@@ -43,12 +44,24 @@ module.exports = class AllureCore {
         allureReporter.getCurrentTest().addParameter("argument", name, value)
     }
 
+    addTestDescription(value){
+        allureReporter.getCurrentTest().setDescription(value, "TEXT")
+    }
+
+    addTestTag(value){
+        allureReporter.getCurrentTest().addLabel("tag", value)
+    }
+
     addTaskInfo(endTime, passed, warnings) {
         this.allureReport.passed = passed;
         this.allureReport.endTime = endTime;
         this.allureReport.warnings = warnings;
     }
 
+    addTest(){
+        
+    }
+    
     endTestSuite() {
         allureReporter.endSuite();
     }
