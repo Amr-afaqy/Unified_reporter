@@ -1,14 +1,13 @@
 "use strict";
 const http = require("axios").default;
 const logger = require("../logger");
-const path = require('path')
-require('dotenv').config({ path: path.resolve("./", '.env') })
 module.exports = class TestrailCore {
-    constructor(configObject) {
+    constructor(configObject, authConfig) {
+        
         this.railConfig = configObject;
-        this.userName = process.env.railUsername;
-        this.password = process.env.railPassword;
-        this.baseUrl = process.env.testRailBaseURL;
+        this.userName = authConfig.railUsername;
+        this.password = authConfig.railPassword;
+        this.baseUrl = authConfig.testRailBaseURL;
         this.authEndPoint = this.railConfig.gAuthEndPoint;
         this.listProjectsEndPoint = this.railConfig.gListProjectsEndPoint;
         this.listMileStones = this.railConfig.gListMileStones;
@@ -143,7 +142,7 @@ module.exports = class TestrailCore {
         }
     }
 
-    async getTestCaseByID(sessionCookies, testCaseID){
+    async getTestCaseByID(sessionCookies, testCaseID) {
         try {
             let testCaseData = await http.get(
                 this.baseUrl + this.getTestCase + "/" + (await testCaseID),

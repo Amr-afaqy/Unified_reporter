@@ -1,10 +1,12 @@
 const Distributer = require("./distributer");
 const logger = require("./logger");
 const chalk = require('chalk')
-const globalConfigs = require("../config.json");
+const globalConfigs = require("./config.json");
 const path = require('path')
 const fs = require("fs")
-require('dotenv').config({ path: path.resolve(__dirname, './.env') })
+var appRoot = require('app-root-path');
+let userconfig;
+
 class TestRun {
    constructor() {
       this.dataObject = {
@@ -54,7 +56,7 @@ class TestRun {
    async printGeneratedObject() {
       try {
          logger("Starting the distributer master......");
-         const reportDistributer = new Distributer();
+         const reportDistributer = new Distributer(userconfig);
          await reportDistributer.setTestObject(this.dataObject);
          await reportDistributer.startDistributing();
          logger("Done......");
@@ -68,11 +70,14 @@ module.exports = function () {
    return {
       noColors: true,
       reporterHandler: new TestRun(),
+      userConfigData: validateConfigFile(),
       reportTaskStart(startTime, userAgents, testCount) {
          this.startTime = startTime;
          this.testCount = testCount;
 
          const time = this.moment(startTime).format("M/D/YYYY h:mm:ss a");
+
+         this.write(chalk.yellow('--> ') + `User configuration file status:` + this.userConfigData())
 
          this.write(chalk.green('--> ') + `Afaqy custom reporter started: ${time}`).newline()
             .write(chalk.green('--> ') + `Running ${testCount} tests in: ${userAgents}`).newline();
@@ -85,12 +90,12 @@ module.exports = function () {
       reportFixtureStart(name, path, meta) {
          this.currentFixtureName = name;
          this.currentFixtureMeta = meta;
-         this.write(chalk.green('--> ') + `Starting fixture: ${name} ${meta[globalConfigs.metaConfig.fixtureIDMeta]}`).newline();
+         this.write(chalk.green('--> ') + `Starting fixture: ${name} ${meta[userconfig.metaConfig.fixtureIDMeta]}`).newline();
          this.reporterHandler.updateFixtures(name, path, meta, Math.random());
       },
 
       async reportTestStart(name, meta) {
-         this.write(chalk.green('--> ') + `Starting test: ${name} (${meta[globalConfigs.metaConfig.severityMeta]})`).newline();
+         this.write(chalk.green('--> ') + `Starting test: ${name} (${meta[userconfig.metaConfig.severityMeta]})`).newline();
       },
 
       reportTestDone(name, testRunInfo, meta) {
@@ -108,3 +113,56 @@ module.exports = function () {
       },
    };
 };
+
+function validateConfigFile() {
+   let fileValidations = [validateFileExistance, validateFileStructure, validateFileAuthKeysValues, validateFileMetaKeysValues]
+   return fileValidations.every((item) => item() == true)
+}
+
+function validateFileExistance() {
+   if (!fs.existsSync(path.resolve(appRoot.path + "/" + globalConfigs.general.userConfigFileName))) {
+      fs.writeFileSync(path.resolve(appRoot.path + "/" + globalConfigs.general.userConfigFileName), JSON.stringify(returnObject()))
+   }
+   userconfig = require(path.resolve(appRoot.path + "/" + globalConfigs.general.userConfigFileName))
+   return true
+}
+
+function validateFileStructure() {
+   let mandatoryStructure = ["auth", "metaConfig"]
+   return mandatoryStructure.every((item) => Object.keys(userconfig).includes(item))
+}
+
+function validateFileAuthKeysValues() {
+   let authKeys = ["testRailBaseURL", "railUsername", "railPassword", "jiraBaseURL", "jiraUsername", "jiraPassword"]
+   return authKeys.every((item) => Object.keys(userconfig.auth).includes(item) && userconfig.auth[item] != "" && userconfig.auth[item] != null)
+}
+
+function validateFileMetaKeysValues() {
+   let metaKeys = ["projectMeta", "suiteMeta", "milestoneMeta", "testcaseID", "componentMeta", "projectKeyMeta", "priorityMeta", "severityMeta", "labelsMeta", "fixtureIDMeta"]
+   return metaKeys.every((item) => Object.keys(userconfig.metaConfig).includes(item) && userconfig.metaConfig[item] != "" && userconfig.metaConfig[item] != null)
+}
+
+const returnObject = () => {
+   return {
+      "auth": {
+         "testRailBaseURL": "",
+         "railUsername": "",
+         "railPassword": "",
+         "jiraBaseURL": "",
+         "jiraUsername": "",
+         "jiraPassword": ""
+      },
+      "metaConfig": {
+         "projectMeta": "Project_Name",
+         "suiteMeta": "Suite_Name",
+         "milestoneMeta": "MileStone_Name",
+         "testcaseID": "testcase_ID",
+         "componentMeta": "targetComponent",
+         "projectKeyMeta": "jiraProjectKey",
+         "priorityMeta": "testPriority",
+         "severityMeta": "testSeverity",
+         "labelsMeta": "testLabels",
+         "fixtureIDMeta": "fixtureID"
+      }
+   }
+}

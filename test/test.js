@@ -2,12 +2,18 @@ var assert = require('assert');
 const rail_Channel = require("./utils/rail_channel_func")
 const jira_Channel = require("./utils/jira_channel_func")
 const test_Data = require("./data/test_data");
-const test_data = require('./data/test_data');
 const Distributer = require("../src/distributer");
 const rawTestObject = require("./data/testObject.json");
 const AllureCore = require("../src/core/AllureCore")
+const index = require("../src/index")
 
-describe("Test the Testrail module core functions", function () {
+describe.skip("Test the installation of the user configuration json file", function(){
+    it('Check the config file validation functions', async function () {
+        assert.equal(index().userConfigData, true);
+    });
+})
+
+describe.skip("Test the Testrail module core functions", function () {
     before(async function () {
         this.token = await rail_Channel.createAuthenticationToken()
         assert.notEqual(this.token.userID, null);
@@ -50,7 +56,7 @@ describe("Test the Testrail module core functions", function () {
     });
 })
 
-describe("Test the Jira module core functions", function () {
+describe.skip("Test the Jira module core functions", function () {
     before(async function () {
         this.token = await jira_Channel.createAuthenticationToken()
         assert.notEqual(this.token, null);
@@ -73,7 +79,7 @@ describe("Test the Jira module core functions", function () {
     });
 })
 
-describe("Test Allure module core functions", function () {
+describe.skip("Test Allure module core functions", function () {
     before(async function () {
 
     });
@@ -106,7 +112,7 @@ describe("Test Allure module core functions", function () {
     })
 })
 
-describe("Test the distributer class functionality", function () {
+describe.skip("Test the distributer class functionality", function () {
     before(async function () {
         this.token = await jira_Channel.createAuthenticationToken()
         assert.notEqual(this.token, null);
@@ -120,7 +126,7 @@ describe("Test the distributer class functionality", function () {
     })
 })
 
-describe("Random Functions Test", function () {
+describe.skip("Random Functions Test", function () {
     
     before(async function () {
         const reportDistributer = new Distributer();

@@ -6,7 +6,7 @@ const logger = require("../logger");
 module.exports = class TestRailInstance {
    constructor(testRailCore, configObject) {
       this.railCore = testRailCore;
-      this.globalConfigs = configObject
+      this.userConfigs = configObject
    }
 
    async createTokenDetails() {
@@ -45,13 +45,13 @@ module.exports = class TestRailInstance {
    }
 
    async #createRunObject(token, fixtureObject) {
-      let projectID = await this.railCore.getProjectIDS(await token.sessionID, fixtureObject.fMeta[this.globalConfigs.metaConfig.projectMeta]);
-      let milestoneID = await this.railCore.getMileStoneID(await token.sessionID, await projectID, fixtureObject.fMeta[this.globalConfigs.metaConfig.milestoneMeta]);
-      let suiteID = await this.railCore.getSuiteID(await token.sessionID, await projectID, fixtureObject.fMeta[this.globalConfigs.metaConfig.suiteMeta]);
+      let projectID = await this.railCore.getProjectIDS(await token.sessionID, fixtureObject.fMeta[this.userConfigs.metaConfig.projectMeta]);
+      let milestoneID = await this.railCore.getMileStoneID(await token.sessionID, await projectID, fixtureObject.fMeta[this.userConfigs.metaConfig.milestoneMeta]);
+      let suiteID = await this.railCore.getSuiteID(await token.sessionID, await projectID, fixtureObject.fMeta[this.userConfigs.metaConfig.suiteMeta]);
       let casesID = await this.#getTestCasesIDs(fixtureObject);
       return {
          project_ID: await projectID,
-         runObject: new TestRunModel(await suiteID, await fixtureObject.name, await token.userID, casesID, await milestoneID, this.globalConfigs.general.testRunSignature),
+         runObject: new TestRunModel(await suiteID, await fixtureObject.name, await token.userID, casesID, await milestoneID, this.userConfigs.general.testRunSignature),
       };
    }
 
@@ -60,7 +60,7 @@ module.exports = class TestRailInstance {
       for (let testCase of testsArrayObject) {
          testResults.push(
             new TestCaseModel(
-               testCase.tMeta[this.globalConfigs.metaConfig.testcaseID],
+               testCase.tMeta[this.userConfigs.metaConfig.testcaseID],
                await this.#checkTestCaseStatus(testCase.runInfo.errs),
                testCase.tName,
                await this.#convertTestCaseTime(testCase.runInfo.durationMs)
@@ -85,7 +85,7 @@ module.exports = class TestRailInstance {
    async #getTestCasesIDs(fixtureObject) {
       let casesArray = [];
       for (let element of await fixtureObject.fTests) {
-         casesArray.push(element.tMeta[this.globalConfigs.metaConfig.testcaseID]);
+         casesArray.push(element.tMeta[this.userConfigs.metaConfig.testcaseID]);
       }
       return casesArray;
    }

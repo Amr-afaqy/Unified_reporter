@@ -43,6 +43,7 @@
   "dependencies": {
     "@babel/runtime": "^7.3.4",
     "acorn": "^8.5.0",
+    "app-root-path": "^3.0.0",
     "axios": "^0.21.4",
     "chalk": "^2.4.2",
     "dotenv": "^10.0.0",

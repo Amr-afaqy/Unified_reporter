@@ -1,14 +1,12 @@
 "use strict";
 const http = require("axios").default;
 const logger = require("../logger");
-const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 module.exports = class JiraCore {
-   constructor(configObject) {
+   constructor(configObject, authConfig) {
       this.jiraConfig = configObject;
-      this.userName = process.env.jiraUsername;
-      this.password = process.env.jiraPassword;
-      this.baseUrl = process.env.jiraBaseURL;
+      this.userName = authConfig.jiraUsername;
+      this.password = authConfig.jiraPassword;
+      this.baseUrl = authConfig.jiraBaseURL;
       this.authEndPoint = this.jiraConfig.gAuthEndPoint;
       this.issueEndPoint = this.jiraConfig.gCreateIssue;
    }

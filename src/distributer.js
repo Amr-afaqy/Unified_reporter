@@ -4,7 +4,7 @@ const TestrailCore = require("./core/TestrailCore.js")
 const TestRailInstance = require("./channels/TestRailInstance.js")
 const jiraInstance = require("./channels/jiraInstance.js")
 const logger = require("./logger");
-const globalConfigs = require("../config.json");
+const globalConfigs = require("./config.json");
 const AllureCore = require("./core/AllureCore.js");
 const AllureInstance = require("./channels/AllureInstance.js");
 
@@ -17,7 +17,8 @@ module.exports = class Distributer {
    railToken;
    allureCore;
    allureInstance;
-   constructor() {
+   constructor(userconfig) {
+      this.userConfigs = userconfig 
    }
 
    async setTestObject(testObject) {
@@ -37,8 +38,8 @@ module.exports = class Distributer {
 
    async distributeToRail(railTestObject) {
       try {
-         this.railCore = new TestrailCore(globalConfigs.testrail)
-         this.railProcessor = new TestRailInstance(this.railCore, globalConfigs);
+         this.railCore = new TestrailCore(globalConfigs.testrail, this.userConfigs.auth)
+         this.railProcessor = new TestRailInstance(this.railCore, this.userConfigs);
          this.railToken = await this.railProcessor.createTokenDetails();
          const runData = await this.railProcessor.prepareRunData(this.railToken, railTestObject);
          await this.railProcessor.pushNewRun(this.railToken, runData);
@@ -51,8 +52,8 @@ module.exports = class Distributer {
 
    async distributeToJira(testObject) {
       try {
-         this.jiraCore = new JiraCore(globalConfigs.jira)
-         this.jiraProcessor = new jiraInstance(this.jiraCore, globalConfigs);
+         this.jiraCore = new JiraCore(globalConfigs.jira, this.userConfigs.auth)
+         this.jiraProcessor = new jiraInstance(this.jiraCore, this.userConfigs);
          let sessionCookies = await this.jiraProcessor.initateAuthenticationToken();
          let defects = await this.jiraProcessor.extractDefectsFromObject(testObject);
          let issuesList = await this.jiraProcessor.createIssueObjectList(defects);
@@ -69,7 +70,7 @@ module.exports = class Distributer {
    async distributeToAllure(testObject) {
       try {
          this.allureCore = new AllureCore(globalConfigs.allure)
-         this.allureInstance = new AllureInstance(this.allureCore, globalConfigs)
+         this.allureInstance = new AllureInstance(this.allureCore, this.userConfigs)
          this.allureInstance.generateReport(testObject)
       } catch (error) {
          logger(error, true);
@@ -89,14 +90,14 @@ module.exports = class Distributer {
    }
 
    checkFixtureMeta(fixture) {
-      let fixtureMetas = [globalConfigs.metaConfig.projectKeyMeta, globalConfigs.metaConfig.projectMeta, globalConfigs.metaConfig.suiteMeta,
-      globalConfigs.metaConfig.milestoneMeta]
+      let fixtureMetas = [this.userConfigs.metaConfig.projectKeyMeta, this.userConfigs.metaConfig.projectMeta, this.userConfigs.metaConfig.suiteMeta,
+      this.userConfigs.metaConfig.milestoneMeta]
       return fixtureMetas.every((metaItem) => Object.keys(fixture.fMeta).includes(metaItem))
    }
 
    checkTestCaseMeta(testCase) {
-      let testCaseMeta = [globalConfigs.metaConfig.testcaseID, globalConfigs.metaConfig.severityMeta, globalConfigs.metaConfig.componentMeta,
-      globalConfigs.metaConfig.priorityMeta, globalConfigs.metaConfig.labelsMeta]
+      let testCaseMeta = [this.userConfigs.metaConfig.testcaseID, this.userConfigs.metaConfig.severityMeta, this.userConfigs.metaConfig.componentMeta,
+      this.userConfigs.metaConfig.priorityMeta, this.userConfigs.metaConfig.labelsMeta]
       return testCaseMeta.every((metaItem) => Object.keys(testCase.tMeta).includes(metaItem))
    }
 };

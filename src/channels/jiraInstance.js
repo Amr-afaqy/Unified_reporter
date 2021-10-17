@@ -7,7 +7,7 @@ const FormData = require('form-data');
 module.exports = class jiraInstance {
    constructor(jiraCore, configObject) {
       this.jiraCore = jiraCore;
-      this.globalConfigs = configObject
+      this.userConfigs = configObject
    }
 
    async initateAuthenticationToken() {
@@ -31,12 +31,12 @@ module.exports = class jiraInstance {
       let issuesList = [];
       for (let defect of defectsObject) {
          for (let test of defect.fTests) {
-            let defectObject = new JiraDefectModel(defect.fMeta[this.globalConfigs.metaConfig.projectKeyMeta], test.tName, test.tName,
-               test.tMeta[this.globalConfigs.metaConfig.componentMeta],
-               test.tMeta[this.globalConfigs.metaConfig.priorityMeta],
-               test.tMeta[this.globalConfigs.metaConfig.severityMeta],
-               test.tMeta[this.globalConfigs.metaConfig.labelsMeta],
-               test.tMeta[this.globalConfigs.metaConfig.testcaseID],
+            let defectObject = new JiraDefectModel(defect.fMeta[this.userConfigs.metaConfig.projectKeyMeta], test.tName, test.tName,
+               test.tMeta[this.userConfigs.metaConfig.componentMeta],
+               test.tMeta[this.userConfigs.metaConfig.priorityMeta],
+               test.tMeta[this.userConfigs.metaConfig.severityMeta],
+               test.tMeta[this.userConfigs.metaConfig.labelsMeta],
+               test.tMeta[this.userConfigs.metaConfig.testcaseID],
                test.runInfo.videos[0].videoPath)
             issuesList.push(defectObject);
          }
