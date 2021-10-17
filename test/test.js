@@ -86,16 +86,17 @@ describe("Test Allure module core functions", function () {
             fixture.fTests.forEach((test) => {
                 allureCore.createNewTestCase(test.tName)
                 //allureCore.addTaskInfo(323213131, 1, "This is a warning")
-                allureCore.addTestEnvironment("Browser", rawTestObject.reportAgent[0])
-                allureCore.addTestArgument("Project name", fixture.fMeta.Project_Name)
-                allureCore.addTestArgument("Suite_Name", fixture.fMeta.Suite_Name)
-                allureCore.addTestArgument("MileStone_Name", fixture.fMeta.MileStone_Name)
-                allureCore.addTestLabel("story", test.tMeta.Suite_Name)
-                allureCore.addTestLabel('feature', test.tMeta.testSeverity);
+                // allureCore.addTestEnvironment("Browser", rawTestObject.reportAgent[0])
+                // allureCore.addTestArgument("Project name", fixture.fMeta.Project_Name)
+                // allureCore.addTestArgument("Suite_Name", fixture.fMeta.Suite_Name)
+                // allureCore.addTestArgument("MileStone_Name", fixture.fMeta.MileStone_Name)
+                // allureCore.addTestLabel("story", test.tMeta.Suite_Name)
+                // allureCore.addTestLabel('feature', test.tMeta.testSeverity);
+                rawTestObject.reportAgent.forEach((agent) => allureCore.addTestEnvironment("User Agent", agent))
                 allureCore.addTestDescription('This is just a description');
                 allureCore.addTestLabel('severity', "critical");
                 allureCore.addTestTag("Test")
-                allureCore.endTestCaseData("passed", { "message": "This test passed", "stack": "empty stack" }, 3341313131)
+                allureCore.endTestCaseData("passed", { "message": "This test passed", "stack": "empty stack" }, test.runInfo.durationMs)
 
             })
             allureCore.endTestSuite()
@@ -119,14 +120,24 @@ describe("Test the distributer class functionality", function () {
     })
 })
 
-describe.only("Test the distributer class functionality", function () {
+describe("Random Functions Test", function () {
+    
     before(async function () {
-        // this.token = await jira_Channel.createAuthenticationToken()
-        // assert.notEqual(this.token, null);
+        const reportDistributer = new Distributer();
+        this.distributer = reportDistributer
     });
 
-    it("Test push on testrail and jira from the raw test object", async function () {
-        let i = 0;
-        console.log(rawTestObject.testFixtures.reduce((fixture, next) => fixture.fTests.length + next.fTests.length))
+    it("Test the check metadata validation function", async function () {
+        assert.equal(this.distributer.checkMetaData(rawTestObject), true)
+    })
+
+    it("Test the check metadata validation function with a missing meta key in fixture", async function () {
+        delete rawTestObject.testFixtures[0].fMeta.Project_Name
+        assert.throws(()=> this.distributer.checkMetaData(rawTestObject))
+    })
+
+    it("Test the check metadata validation function with a missing meta key in test", async function () {
+        delete rawTestObject.testFixtures[0].fTests[0].tMeta.testcase_ID
+        assert.throws(()=> this.distributer.checkMetaData(rawTestObject))
     })
 })

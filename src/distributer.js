@@ -25,9 +25,14 @@ module.exports = class Distributer {
    }
 
    async startDistributing() {
+      await checkMetaData(this.#TEST_OBJECT)
       await distributeToRail(this.#TEST_OBJECT);
       await distributeToJira(this.#TEST_OBJECT);
       await distributeToAllure(this.#TEST_OBJECT);
+   }
+
+   checkMetaData(testObject) {
+      if (testObject.testFixtures.every((fixture) => this.checkFixtureMeta(fixture) && fixture.fTests.every(this.checkTestCaseMeta))) return true; else throw "Missing required metadata."
    }
 
    async distributeToRail(railTestObject) {
@@ -81,6 +86,18 @@ module.exports = class Distributer {
              ${testCaseData.data.custom_expected}`
       }))
       return issuesList
+   }
+
+   checkFixtureMeta(fixture) {
+      let fixtureMetas = [globalConfigs.metaConfig.projectKeyMeta, globalConfigs.metaConfig.projectMeta, globalConfigs.metaConfig.suiteMeta,
+      globalConfigs.metaConfig.milestoneMeta]
+      return fixtureMetas.every((metaItem) => Object.keys(fixture.fMeta).includes(metaItem))
+   }
+
+   checkTestCaseMeta(testCase) {
+      let testCaseMeta = [globalConfigs.metaConfig.testcaseID, globalConfigs.metaConfig.severityMeta, globalConfigs.metaConfig.componentMeta,
+      globalConfigs.metaConfig.priorityMeta, globalConfigs.metaConfig.labelsMeta]
+      return testCaseMeta.every((metaItem) => Object.keys(testCase.tMeta).includes(metaItem))
    }
 };
 
