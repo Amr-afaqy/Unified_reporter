@@ -108,3 +108,4 @@ dist
 # Custom editor format
 .prettierrc
 allure-results
+reporterconfig.json

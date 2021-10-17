@@ -64,8 +64,8 @@ module.exports = class JiraCore {
          return await sd.data;
       } catch (error) {
          logger("Issue while pushing a new issue on jira");
-         logger(await error.response.data, true);
-         console.error(await error.response.data);
+         logger(await error.response, true);
+         console.error(await error.response);
       }
    }
 }

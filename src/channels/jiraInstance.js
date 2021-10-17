@@ -31,13 +31,20 @@ module.exports = class jiraInstance {
       let issuesList = [];
       for (let defect of defectsObject) {
          for (let test of defect.fTests) {
+            let videoPath = () => {
+               if (test.runInfo.videos.length > 0) {
+                  return test.runInfo.videos[0].videoPath
+               } else {
+                  return ""
+               }
+            }
             let defectObject = new JiraDefectModel(defect.fMeta[this.userConfigs.metaConfig.projectKeyMeta], test.tName, test.tName,
                test.tMeta[this.userConfigs.metaConfig.componentMeta],
                test.tMeta[this.userConfigs.metaConfig.priorityMeta],
                test.tMeta[this.userConfigs.metaConfig.severityMeta],
                test.tMeta[this.userConfigs.metaConfig.labelsMeta],
                test.tMeta[this.userConfigs.metaConfig.testcaseID],
-               test.runInfo.videos[0].videoPath)
+               videoPath())
             issuesList.push(defectObject);
          }
       }
@@ -53,12 +60,14 @@ module.exports = class jiraInstance {
    async updateDefectAttachment(token, defectsList) {
       return await Promise.all(defectsList.map(async (item) => {
          const filePath = item.attachment;
-         const form = new FormData();
-         const stats = fs.statSync(filePath);
-         const fileSizeInBytes = stats.size;
-         const fileStream = fs.createReadStream(filePath);
-         form.append('file', fileStream, { knownLength: fileSizeInBytes });
-         return await this.jiraCore.updateIssueAttachment(await token, item.jiraKey, form)
+         if (filePath != undefined && filePath != "") {
+            const form = new FormData();
+            const stats = fs.statSync(filePath);
+            const fileSizeInBytes = stats.size;
+            const fileStream = fs.createReadStream(filePath);
+            form.append('file', fileStream, { knownLength: fileSizeInBytes });
+            return await this.jiraCore.updateIssueAttachment(await token, item.jiraKey, form)
+         }
       }))
    }
 }

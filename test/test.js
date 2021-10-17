@@ -135,7 +135,7 @@ describe("Test Allure module core functions", function () {
     })
 })
 
-describe("Test the distributer class functionality", function () {
+describe.only("Test the distributer class functionality", function () {
     before(async function () {
         this.token = await jira_Channel.createAuthenticationToken()
         assert.notEqual(this.token, null);
