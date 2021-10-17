@@ -1,12 +1,14 @@
 const globalConfigs = require("../../src/config.json");
 const TestrailCore = require("../../src/core/TestrailCore.js");
 const TestRailInstance = require("../../src/channels/TestRailInstance.js");
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
 module.exports = {
         returnObject: {
                 "auth": {
-                        "testRailBaseURL": "http://testrail.afaqy.sa/index.php?",
-                        "railUsername": "amr.ali@afaqy.com",
-                        "railPassword": "Afaqy@2020"
+                        "testRailBaseURL": process.env.testRailBaseURL,
+                        "railUsername": process.env.railUsername,
+                        "railPassword": process.env.railPassword
                 },
                 "metaConfig": {
                         "projectMeta": "Project_Name",

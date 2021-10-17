@@ -1,14 +1,14 @@
-var gulp    = require('gulp');
-var eslint  = require('gulp-eslint');
-var babel   = require('gulp-babel');
-var mocha   = require('gulp-mocha');
-var del     = require('del');
+var gulp = require('gulp');
+var eslint = require('gulp-eslint');
+var babel = require('gulp-babel');
+var mocha = require('gulp-mocha');
+var del = require('del');
 
-function clean (cb) {
+function clean(cb) {
     del('lib', cb);
 }
 
-function lint () {
+function lint() {
     return gulp
         .src([
             'src/**/*.js',
@@ -20,28 +20,34 @@ function lint () {
         .pipe(eslint.failAfterError());
 }
 
-function build () {
+function build() {
     return gulp
         .src('src/**/*.js')
         .pipe(babel())
         .pipe(gulp.dest('lib'));
 }
 
-function test () {
+function test() {
     return gulp
         .src('test/test.js')
         .pipe(mocha({
-            ui:       'bdd',
+            ui: 'bdd',
             reporter: 'spec',
-            timeout:  typeof v8debug === 'undefined' ? 120000 : Infinity // NOTE: disable timeouts in debug
+            timeout: typeof v8debug === 'undefined' ? 120000 : Infinity // NOTE: disable timeouts in debug
         }));
 }
 
-function preview () {
+function copy() {
+    return gulp
+        .src('src/config.json')
+        .pipe(gulp.dest('lib'));
+}
+
+function preview() {
     var buildReporterPlugin = require('testcafe').embeddingUtils.buildReporterPlugin;
-    var pluginFactory       = require('./lib');
-    var reporterTestCalls   = require('./test/utils/reporter-test-calls');
-    var plugin              = buildReporterPlugin(pluginFactory);
+    var pluginFactory = require('./lib');
+    var reporterTestCalls = require('./test/utils/reporter-test-calls');
+    var plugin = buildReporterPlugin(pluginFactory);
 
     console.log();
 
@@ -55,6 +61,6 @@ function preview () {
 exports.clean = clean;
 // exports.lint = lint;
 // exports.test = gulp.series(clean, lint, build, test);
-exports.test = gulp.series(clean,build, test);
-exports.build = gulp.series(clean,build);
+exports.test = gulp.series(clean, copy, build, test);
+exports.build = gulp.series(clean, copy, build);
 exports.preview = gulp.series(clean, lint, build, preview);

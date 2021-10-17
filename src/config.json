@@ -1,7 +1,7 @@
 {
   "general": {
     "userConfigFileName": "reporterconfig.json",
-    "testRunSignature": "Auto created defect by Afaqy reporter v1.0"
+    "testRunSignature": "Auto created defect by Unified reporter v1.0"
   },
   "testrail": {
     "gAuthEndPoint": "/auth/login/=",

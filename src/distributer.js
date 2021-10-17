@@ -21,19 +21,20 @@ module.exports = class Distributer {
       this.userConfigs = userconfig 
    }
 
+
    async setTestObject(testObject) {
       this.#TEST_OBJECT = testObject;
    }
 
    async startDistributing() {
-      await checkMetaData(this.#TEST_OBJECT)
-      await distributeToRail(this.#TEST_OBJECT);
-      await distributeToJira(this.#TEST_OBJECT);
-      await distributeToAllure(this.#TEST_OBJECT);
+      await this.checkMetaData(this.#TEST_OBJECT)
+      await this.distributeToRail(this.#TEST_OBJECT);
+      await this.distributeToJira(this.#TEST_OBJECT);
+      await this.distributeToAllure(this.#TEST_OBJECT);
    }
 
    checkMetaData(testObject) {
-      if (testObject.testFixtures.every((fixture) => this.checkFixtureMeta(fixture) && fixture.fTests.every(this.checkTestCaseMeta))) return true; else throw "Missing required metadata."
+      if (testObject.testFixtures.every((fixture) => this.checkFixtureMeta(fixture) && fixture.fTests.every((test) => this.checkTestCaseMeta(test)))) return true; else throw "Missing required metadata."
    }
 
    async distributeToRail(railTestObject) {

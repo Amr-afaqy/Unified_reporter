@@ -1,29 +1,54 @@
-# testcafe-reporter-afaqy
-[![Build Status](https://travis-ci.org/@Amrxx/testcafe-reporter-afaqy.svg)](https://travis-ci.org/@Amrxx/testcafe-reporter-afaqy)
+# testcafe-reporter-unified
 
-This is the **afaqy** reporter plugin for [TestCafe](http://devexpress.github.io/testcafe).
+This is the **Unified** reporter plugin for [TestCafe](http://devexpress.github.io/testcafe).
 
-<p align="center">
-    <img src="http://test.afaqy.com/images/Logo.png" alt="preview" />
-</p>
-
-## Version - 1.0
+## Version - 1.1
 - Create test run on test rail for each tested fixture
 - Create defect on jira with the assigned meta data based on the testcase result
+- Create allure report 
 - Simple command line reporter
 
 ## Install
 
 ```
-npm install testcafe-reporter-afaqy
+npm install testcafe-reporter-unified
 ```
+## Instructions
+
+- Create a (**reporterconfig.json**) file with the following structure 
+```
+{
+      "auth": {
+         "testRailBaseURL": "",
+         "railUsername": "",
+         "railPassword": "",
+         "jiraBaseURL": "",
+         "jiraUsername": "",
+         "jiraPassword": ""
+      },
+      "metaConfig": {
+         "projectMeta": "Project_Name",
+         "suiteMeta": "Suite_Name",
+         "milestoneMeta": "MileStone_Name",
+         "testcaseID": "testcase_ID",
+         "componentMeta": "targetComponent",
+         "projectKeyMeta": "jiraProjectKey",
+         "priorityMeta": "testPriority",
+         "severityMeta": "testSeverity",
+         "labelsMeta": "testLabels",
+         "fixtureIDMeta": "fixtureID"
+      }
+   }
+```
+- Specify the empty strings with the required values
+- Change the meta data key names if you want
 
 ## Usage
 
 When you run tests from the command line, specify the reporter name by using the `--reporter` option:
 
 ```
-testcafe chrome 'path/to/test/file.js' --reporter afaqy
+testcafe chrome 'path/to/test/file.js' --reporter unified
 ```
 
 
@@ -34,10 +59,10 @@ testCafe
     .createRunner()
     .src('path/to/test/file.js')
     .browsers('chrome')
-    .reporter('afaqy') // <-
+    .reporter('unified') // <-
     .run();
 ```
 
 ## Author
-Amr Aly @ Afaqy 2021
-# Afaqy_Reporter
+Amr Aly @ 2021
+# Unified_Reporter

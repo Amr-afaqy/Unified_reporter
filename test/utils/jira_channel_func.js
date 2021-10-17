@@ -1,13 +1,14 @@
 const globalConfigs = require("../../src/config.json");
 var JiraCore = require("../../src/core/JiraCore");
-var jiraInstance = require("../../src/channels/jiraInstance");
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
 module.exports = {
         returnObject:
         {
                 "auth": {
-                        "jiraBaseURL": "http://jira.afaqy.sa/",
-                        "jiraUsername": "a.ali",
-                        "jiraPassword": "Temp@150"
+                        "jiraBaseURL": process.env.jiraBaseURL,
+                        "jiraUsername": process.env.jiraUsername,
+                        "jiraPassword": process.env.jiraPassword
                 },
                 "metaConfig": {
                         "projectMeta": "Project_Name",
@@ -33,6 +34,7 @@ module.exports = {
                 const jiraCore = new JiraCore(globalConfigs.jira, this.returnObject.auth)
                 let issuesList = await jiraCore.pushNewIssue(cookies, payload);
                 console.log(await issuesList)
+                return await issuesList
         }
 
 }

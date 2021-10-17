@@ -51,7 +51,7 @@ module.exports = class TestRailInstance {
       let casesID = await this.#getTestCasesIDs(fixtureObject);
       return {
          project_ID: await projectID,
-         runObject: new TestRunModel(await suiteID, await fixtureObject.name, await token.userID, casesID, await milestoneID, this.userConfigs.general.testRunSignature),
+         runObject: new TestRunModel(await suiteID, await fixtureObject.name, await token.userID, casesID, await milestoneID, "Auto created defect by Unified reporter v1.1"),
       };
    }
 

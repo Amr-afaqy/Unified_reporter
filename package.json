@@ -1,8 +1,8 @@
 {
-  "name": "testcafe-reporter-afaqy",
+  "name": "testcafe-reporter-unified",
   "version": "1.0.1",
-  "description": "afaqy TestCafe reporter plugin.",
-  "repository": "https://github.com/@Amrxx/testcafe-reporter-afaqy",
+  "description": "Unified TestCafe reporter plugin.",
+  "repository": "https://github.com/Amrrx/Unified_reporter",
   "type": "commonjs",
   "author": {
     "name": "Amr Aly",
@@ -13,9 +13,7 @@
     "lib"
   ],
   "scripts": {
-    "test": "gulp test",
-    "publish-please": "publish-please",
-    "prepublish": "publish-please guard"
+    "test": "gulp test"
   },
   "keywords": [
     "testcafe",

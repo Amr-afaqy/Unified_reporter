@@ -77,9 +77,9 @@ module.exports = function () {
 
          const time = this.moment(startTime).format("M/D/YYYY h:mm:ss a");
 
-         this.write(chalk.yellow('--> ') + `User configuration file status:` + this.userConfigData())
+         this.write(chalk.yellow('--> ') + `User configuration file status:` + this.userConfigData).newline()
 
-         this.write(chalk.green('--> ') + `Afaqy custom reporter started: ${time}`).newline()
+         this.write(chalk.green('--> ') + `Unified testcafe reporter started: ${time}`).newline()
             .write(chalk.green('--> ') + `Running ${testCount} tests in: ${userAgents}`).newline();
 
          this.reporterHandler.updateDataObject("reportStart", startTime);

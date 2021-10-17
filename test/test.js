@@ -6,14 +6,38 @@ const Distributer = require("../src/distributer");
 const rawTestObject = require("./data/testObject.json");
 const AllureCore = require("../src/core/AllureCore")
 const index = require("../src/index")
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
+const testUserConfig = {
+    "auth": {
+        "testRailBaseURL": process.env.testRailBaseURL,
+        "railUsername": process.env.railUsername,
+        "railPassword": process.env.railPassword,
+        "jiraBaseURL": process.env.jiraBaseURL,
+        "jiraUsername": process.env.jiraUsername,
+        "jiraPassword": process.env.jiraPassword
+    },
+    "metaConfig": {
+        "projectMeta": "Project_Name",
+        "suiteMeta": "Suite_Name",
+        "milestoneMeta": "MileStone_Name",
+        "testcaseID": "testcase_ID",
+        "componentMeta": "targetComponent",
+        "projectKeyMeta": "jiraProjectKey",
+        "priorityMeta": "testPriority",
+        "severityMeta": "testSeverity",
+        "labelsMeta": "testLabels",
+        "fixtureIDMeta": "fixtureID"
+    }
 
-describe.skip("Test the installation of the user configuration json file", function(){
+}
+describe("Test the installation of the user configuration json file", function () {
     it('Check the config file validation functions', async function () {
-        assert.equal(index().userConfigData, true);
+        assert.equal(index().userConfigData, false);
     });
 })
 
-describe.skip("Test the Testrail module core functions", function () {
+describe("Test the Testrail module core functions", function () {
     before(async function () {
         this.token = await rail_Channel.createAuthenticationToken()
         assert.notEqual(this.token.userID, null);
@@ -48,15 +72,15 @@ describe.skip("Test the Testrail module core functions", function () {
 
     it('Test update testrun results', async function () {
         let testCases = [];
-        testCases.push(test_data.testCaseObject(15569, 5, "Comment", "4m"));
-        testCases.push(test_data.testCaseObject(15100, 1, "Comment test result 2", "2m"));
+        testCases.push(test_Data.testCaseObject(15569, 5, "Comment", "4m"));
+        testCases.push(test_Data.testCaseObject(15100, 1, "Comment test result 2", "2m"));
 
         let testRunResults = await rail_Channel.updateTestRunResult(this.token.sessionID, this.testRun.id, testCases)
         assert.equal(testRunResults.data.length > 0, true);
     });
 })
 
-describe.skip("Test the Jira module core functions", function () {
+describe("Test the Jira module core functions", function () {
     before(async function () {
         this.token = await jira_Channel.createAuthenticationToken()
         assert.notEqual(this.token, null);
@@ -73,13 +97,12 @@ describe.skip("Test the Jira module core functions", function () {
             "SystemTest",
             "BackEnd"
         ])
-        let result = await jira_Channel.pushDefect(this.token, defectObject)
-        console.log(result)
+        let result = await jira_Channel.pushDefect(this.token, defectObject.toRequestPayload())
         assert.notEqual(result, null);
     });
 })
 
-describe.skip("Test Allure module core functions", function () {
+describe("Test Allure module core functions", function () {
     before(async function () {
 
     });
@@ -112,22 +135,22 @@ describe.skip("Test Allure module core functions", function () {
     })
 })
 
-describe.skip("Test the distributer class functionality", function () {
+describe("Test the distributer class functionality", function () {
     before(async function () {
         this.token = await jira_Channel.createAuthenticationToken()
         assert.notEqual(this.token, null);
     });
 
     it("Test push on testrail and jira from the raw test object", async function () {
-        const reportDistributer = new Distributer();
+        const reportDistributer = new Distributer(testUserConfig);
         await reportDistributer.setTestObject(rawTestObject);
         await reportDistributer.startDistributing();
 
     })
 })
 
-describe.skip("Random Functions Test", function () {
-    
+describe("Random Functions Test", function () {
+
     before(async function () {
         const reportDistributer = new Distributer();
         this.distributer = reportDistributer
@@ -139,11 +162,11 @@ describe.skip("Random Functions Test", function () {
 
     it("Test the check metadata validation function with a missing meta key in fixture", async function () {
         delete rawTestObject.testFixtures[0].fMeta.Project_Name
-        assert.throws(()=> this.distributer.checkMetaData(rawTestObject))
+        assert.throws(() => this.distributer.checkMetaData(rawTestObject))
     })
 
     it("Test the check metadata validation function with a missing meta key in test", async function () {
         delete rawTestObject.testFixtures[0].fTests[0].tMeta.testcase_ID
-        assert.throws(()=> this.distributer.checkMetaData(rawTestObject))
+        assert.throws(() => this.distributer.checkMetaData(rawTestObject))
     })
 })

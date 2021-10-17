@@ -20,7 +20,7 @@ module.exports = class jiraDefectInstance {
                key: this.projectKey,
             },
             summary: "Automated - " + this.title,
-            description: this.description + " \n" + "Auto created defect by Afaqy reporter v1.0",
+            description: this.description + " \n" + "Auto created defect by Unified reporter v1.0",
             issuetype: {
                name: "Bug",
             },

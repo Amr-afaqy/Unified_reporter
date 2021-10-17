@@ -9,7 +9,7 @@ module.exports = class TestRunModel {
           case_ids: case_ids,
           include_all: false,
           milestone_id: mileStoneID,
-          description: description + " \n" + "Auto created run by Afaqy reporter v1.0",
+          description: description + " \n" + "Auto created run by Unified reporter v1.0",
        };
     }
  }
